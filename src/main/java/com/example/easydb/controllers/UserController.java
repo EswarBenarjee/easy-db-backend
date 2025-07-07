@@ -3,10 +3,7 @@ package com.example.easydb.controllers;
 import com.example.easydb.models.User;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.example.easydb.services.UserService;
 
 @RestController
@@ -27,5 +24,17 @@ public class UserController {
         }
 
         return savedUser;
+    }
+    @PostMapping("login")
+    public String loginUser(@Valid @RequestBody User user){
+        String loginStatus = null;
+
+        try {
+            loginStatus = userService.findByMail(user);
+        } catch(Exception e) {
+            System.out.println("Exception: " + e);
+        }
+
+        return loginStatus;
     }
 }
